@@ -1,5 +1,6 @@
 # OOP-Neuron-Modeling
 Object Oriented Class Definitions for a Logical Neuron Unit<br>
+<img src="NeuronLogicalLevels.png"><br>
 This collection of classes models a fully functional Logical Neuron Unit.<br>
 Class Neuron is abstract, and therefore you must instantiate one of its three concrete classes; InterNeuron, MotorNeuron, SensoryNeuron.<br>
 Additionally, a faux Neuron class called InputSignal must be used to send a signal to any instantiated Neuron in the network. However, InputSignal should not receive a signal from any other Object<br>
