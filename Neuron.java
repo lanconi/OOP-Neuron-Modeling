@@ -1,6 +1,8 @@
 package rsd.anatomy.nerve;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import rsd.anatomy.general.Cell;
 import rsd.math.ActivationFunctionEnum;
@@ -316,6 +318,79 @@ public abstract class Neuron extends Cell implements Serializable
 	}
 	
 	/**
+	 * Returns true if this is explicitly or implicitly 
+	 * connected to neuronB.<br>
+	 * 
+	 * Explicit case is if this Neuron is directly connected to neuronB.<br>
+	 * Implicit case is if this Neuron is connected to neuronB through a 
+	 * feedback loop<p>
+	 * 
+	 * @param neuronB
+	 * @return
+	 */
+	public boolean isCircularConnection( Neuron neuron )
+	{
+		//System.out.println("Neuron.isCircularConnection: " + 
+		//					neuron.getNeuronID() );
+		
+		// If this is first iteration, then create the
+		// visitedNeurons List and the bCircular object and
+		// set appropriately
+		List<Neuron> 	visitedNeurons 	= new ArrayList<>();
+		visitedNeurons.add(this);
+				
+		return isCircularConnectionFound(visitedNeurons, 
+										neuron);
+	}
+	
+	/**
+	 * isCircularConnectionFound is a recursive method used to find out
+	 * if a Neuron has a circular connection in its network.<br>
+	 * @param visitedNeurons type List<Neuron>
+	 * @param n type Neuron
+	 * @return boolean
+	 */
+	public boolean isCircularConnectionFound(List<Neuron>  visitedNeurons,
+											Neuron 		  n)
+	{
+		//System.out.println("Neuron.isCircularConnection: " + 
+		//		n.getNeuronID() );
+		
+		// get list of outputs for Neuron n
+		List<Neuron> outputs = n.getOutputs();
+		
+		if( outputs.size() == 0 )
+			return false;
+		
+		// loop through the list of outputs.
+		// if any of the outputs are in the visitedNeurons List, 
+		// then return true
+		for( Neuron neuron: outputs)
+		{
+			if( visitedNeurons.contains(neuron))
+			{
+				return true;
+			}
+		}
+		
+		// add this the Neuron parameter to the visitedNeurons
+		visitedNeurons.add(n);
+
+		
+		// loop through outputs again, calling isCircularConnectionFound for
+		// each output
+		// Each output Neuron, becomes the new visited Neuron
+		for( Neuron neuron: outputs)
+		{
+			if( n.isCircularConnectionFound(visitedNeurons,
+											neuron) )
+				return true;
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * 
 	 * @return Axon
 	 */
@@ -338,7 +413,7 @@ public abstract class Neuron extends Cell implements Serializable
 	 * @return Set<Neuron>
 	 */
 	//public java.util.Set<Neuron> getOutputs()
-	public java.util.List<Neuron> getOutputs()
+	public List<Neuron> getOutputs()
 	{		
 		//return axon.getConnections();
 		return axon.getConnections();
