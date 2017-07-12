@@ -11,5 +11,14 @@ Weights for the Dendrites of any Neuron are restricted between (-1.000d and 1.00
 
 <p>
 
-UML Class Diagram for Neuron.<br>
+UML Class Diagram for Neuron shown below.<br>
+The following relationships are implied ...<br>
+Neuron is a Cell.<br>
+InterNeuron is a Neuron.<br>
+MotorNeuron is a Neuron.<br>
+SensoryNeuron is a Neuron.<br>
+Neuron has a LayerClassification.<br>
+Neuron has an ActivationFunction.<br>
+Neuron has a Dendrites.<br>
+Neuron has an Axon.<br>
 <img src="NeuronUML.png">
